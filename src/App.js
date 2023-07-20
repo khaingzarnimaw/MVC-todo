@@ -15,6 +15,7 @@ function App() {
       .then((res) => res.json())
       .then((todos) => {
         setTodos(todos);
+        // console.log("hit");
       }, []);
   }, []);
 
