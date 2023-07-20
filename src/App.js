@@ -32,9 +32,23 @@ function App() {
       body : JSON.stringify(todo)
     })//post method ကိုသုံး/update တွေကိုသိမ်းမှာ//fetch post method
 
-
     //17//update data at client side(main)
     setTodos(prevState => [...prevState,todo])
+  }
+
+  // deleteTodo
+  let deleteTodo = (todoId) => {
+    //server //main
+    fetch(`http://localhost:3001/todos/${todoId}`,{
+      method : "DELECT"
+    })
+
+    //client
+    setTodos(prevState => {
+     return prevState.filter(todo => {
+      return todo.id !== todoId
+     });//[todo,todo] todoId//မတူတဲ့ကောင်တွေပဲ ကျန်ခဲ့မယ်/တူတဲ့ကောင်တွေက ပြုတ်သွားမယ်
+    })  
   }
 
   return (
@@ -46,7 +60,7 @@ function App() {
         <TodoForm  addTodo={addTodo}/> 
 
         {/* 3 */}
-        <TodoList todos={todos} /> 
+        <TodoList todos={todos}  deleteTodo={deleteTodo}/> 
         <CheckAllAndRemaining />
         <div className="other-buttons-container">
           <TodoFilters />
