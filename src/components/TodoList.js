@@ -1,8 +1,9 @@
 import React from "react";
-
+//4
 export default function TodoList({ todos }) {
   return (
     <ul className="todo-list">
+      {/* 5 */}
       {todos.map((todo) => (
         <li className="todo-item-container" key={todo.id}>
           <div className="todo-item">
@@ -10,11 +11,13 @@ export default function TodoList({ todos }) {
 
             {/* <span className="todo-item-label line-through"></span> */}
             {/* condition စစ် */}
+            {/* 7 */}
             <span
               className={`todo-item-label ${
                 todo.completed ? "line-through" : ""
               }`}
             >
+              {/* 6 */}
               {todo.title}
             </span>
             
