@@ -17,6 +17,7 @@ export default function TodoList({ todos }) {
             >
               {todo.title}
             </span>
+            
             {/* <input type="text" className="todo-item-input" value="Go to Grocery" /> */}
           </div>
           <button className="x-button">

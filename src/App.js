@@ -21,9 +21,16 @@ function App() {
 
   //todo updat & api ကို delete လုပ်ဖို့လို
   let addTodo = (todo) => {
-    //update data at server side
+    //update data at server side(main)
+    fetch('http://localhost:3001/todos',{
+      method : "POST",
+      headers: {
+        "Content-Type": "application/json"},
+      body : JSON.stringify(todo)
+    })//post method ကိုသုံး/update တွေကိုသိမ်းမှာ//fetch post method
 
-    //update data at client side
+
+    //update data at client side(main)
     setTodos(prevState => [...prevState,todo])
   }
 
