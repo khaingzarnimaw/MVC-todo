@@ -3,7 +3,7 @@
         {
             "id" : 1,
             "title" : "My First Todo",
-            "completed" : true
+            "completed" : false
         },
         {
             "id" : 2,
