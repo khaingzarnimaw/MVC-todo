@@ -39,16 +39,38 @@ function App() {
   // deleteTodo
   let deleteTodo = (todoId) => {
     //server //main
-    fetch(`http://localhost:3001/todos/${todoId}`,{
-      method : "DELECT"
-    })
-
+   fetch(`http://localhost:3001/todos/${todoId}`,{
+    method : "DELETE" 
+   })
     //client
     setTodos(prevState => {
      return prevState.filter(todo => {
       return todo.id !== todoId
      });//[todo,todo] todoId//မတူတဲ့ကောင်တွေပဲ ကျန်ခဲ့မယ်/တူတဲ့ကောင်တွေက ပြုတ်သွားမယ်
     })  
+  }
+
+  //updateTodo
+  let updateTodo = (todo)=>{
+    // console.log("hit ",todo);// Todo.js ကပို့တဲ့ data ၀င်မ၀င် check
+    //server
+    fetch(`http://localhost:3001/todos/${todo.id}`,{
+      method : "PATCH",
+      headers: {
+        "Content-Type": "application/json"},
+      body : JSON.stringify(todo)
+    })
+    
+    //client
+    setTodos(prevState =>{
+      return prevState.map( t =>{
+        if(t.id === todo.id){//t.id =loop ပတ်ပီးထွက်လာတဲ့ id
+                            //todo.id= ပြင်ချင်တဲ့ id
+          return todo
+        }
+        return t;//old todo
+      })
+    })
   }
 
   return (
@@ -60,7 +82,7 @@ function App() {
         <TodoForm  addTodo={addTodo}/> 
 
         {/* 3 */}
-        <TodoList todos={todos}  deleteTodo={deleteTodo}/> 
+        <TodoList todos={todos}  deleteTodo={deleteTodo} updateTodo={updateTodo}/> 
         <CheckAllAndRemaining />
         <div className="other-buttons-container">
           <TodoFilters />
