@@ -92,6 +92,20 @@ function App() {
     })
   }
 
+  //ClearCompleted
+  let clearCompleted = ()=>{
+     //server
+    todos.forEach(t=> {
+      if(t.completed){
+        deleteTodo(t.id)
+      }
+    })
+     //client
+    setTodos((prevState)=>{
+      return prevState.filter(t => !t.completed)//မပီးသေးတဲ့ todo တွေကိုပြန်ပေးမှာပါ
+    })
+  }
+
   return (
     <div className="todo-app-container">
       <div className="todo-app">
@@ -105,7 +119,7 @@ function App() {
         <CheckAllAndRemaining remainingCount={remainingCount} checkAll={checkAll}/>
         <div className="other-buttons-container">
           <TodoFilters />
-          <ClearCompletedBtn />
+          <ClearCompletedBtn clearCompleted={clearCompleted} />
         </div>
       </div>
     </div>
