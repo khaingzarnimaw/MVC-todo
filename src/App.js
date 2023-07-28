@@ -5,22 +5,40 @@ import TodoList from "./components/TodoList";
 import CheckAllAndRemaining from "./components/CheckAllAndRemaining";
 import TodoFilters from "./components/TodoFilters";
 import ClearCompletedBtn from "./components/ClearCompletedBtn";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { prettyDOM } from "@testing-library/react";
 
 function App() {
   //2
   let [todos, setTodos] = useState([]);
+  let [filteredTodos,setFilteredTodos] = useState(todos);//todos ကို default အနေနဲ့ ထည့်ပေးလိုက်
 
   //1
   useEffect(() => {
     fetch("http://localhost:3001/todos")
       .then((res) => res.json())
       .then((todos) => {
-        setTodos(todos);
+        setTodos(todos)
+        setFilteredTodos(todos) 
         // console.log("hit");
       }, []);
-  }, []);
+  }, [])
+
+  //Filter// နောက်ဆုံး 
+   let filterBy = useCallback (
+    (filter)=>{
+      if(filter === 'All'){
+       setFilteredTodos(todos);
+      }
+      if(filter === 'Active'){
+       setFilteredTodos(todos.filter(t=>!t.completed))
+      }
+      if(filter === 'Completed'){
+      setFilteredTodos(todos.filter(t=> t.completed))
+      }
+     },[todos]
+   )
+
 
   // 15 //todo updat & api ကို delete လုပ်ဖို့လို
   let addTodo = (todo) => {
@@ -95,13 +113,13 @@ function App() {
   //ClearCompleted
   let clearCompleted = ()=>{
      //server
-    todos.forEach(t=> {
+    todos.forEach( t=> {
       if(t.completed){
         deleteTodo(t.id)
       }
     })
      //client
-    setTodos((prevState)=>{
+    setTodos((prevState)=> {
       return prevState.filter(t => !t.completed)//မပီးသေးတဲ့ todo တွေကိုပြန်ပေးမှာပါ
     })
   }
@@ -115,10 +133,10 @@ function App() {
         <TodoForm  addTodo={addTodo}/> 
 
         {/* 3 */}
-        <TodoList todos={todos}  deleteTodo={deleteTodo} updateTodo={updateTodo}/> 
+        <TodoList todos={filteredTodos}  deleteTodo={deleteTodo} updateTodo={updateTodo}/> 
         <CheckAllAndRemaining remainingCount={remainingCount} checkAll={checkAll}/>
         <div className="other-buttons-container">
-          <TodoFilters />
+          <TodoFilters filterBy={filterBy}/>
           <ClearCompletedBtn clearCompleted={clearCompleted} />
         </div>
       </div>
