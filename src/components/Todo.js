@@ -12,17 +12,27 @@ export default function Todo({todo,deleteTodo,updateTodo}) {
     let updatedTodo={
       id : todo.id,//todoရဲ့ မူလ id ကိုပြန်ထည့်ပေးရမယ်
       title,
-      complete:todo.complete
+      completed :todo.completed
     }
     updateTodo(updatedTodo)
     setIsEdit(false);//စာရိုက်လိုက်ရင် input ပိတ်ချင်တာ
   }
 
+//checkbox
+let handleCheckbox= () => {
+  let updatedTodo = {
+    id : todo.id,
+    title,
+    completed :!todo.completed
+  }
+  updateTodo(updatedTodo) 
+}
+
   return (
     <div>
       <li className="todo-item-container" >
           <div className="todo-item">
-            <input type="checkbox" />
+            <input type="checkbox" checked={todo.completed} onChange={handleCheckbox}/>
 
             {/* <span className="todo-item-label line-through"></span> */}
         {/* edit မလုပ်ခဲ့ရင် ပြမယ်*/}
